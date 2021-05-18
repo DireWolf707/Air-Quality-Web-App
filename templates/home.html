@@ -1,5 +1,36 @@
 {% extends 'base.html' %}
 
 {% block content %}
-hello world
+
+{% if data %}
+{% with data.0 as data %}
+{% with data.Category.Name as category %}
+<div class="p-5 my-4 rounded-3 {{category|slugify}}">
+      <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">{{category}}</h1>
+        <p class="col-md-8 fs-4">Current {{data.ReportingArea}} Air Quality: {{data.AQI}}</p>
+        <hr class="my-4">
+        <p>
+        {% if category == "Good" %}
+        Air quality is satisfactory, and air pollution poses little or no risk.
+        {% elif category == "Moderate" %}
+        Air quality is acceptable. However, there may be a risk for some people, particularly those who are unusually sensitive to air pollution.
+        {% elif category == "Unhealthy" %}
+        Some members of the general public may experience health effects; members of sensitive groups may experience more serious health effects.
+        {% elif category == "Very Unhealthy" %}
+        Health alert: The risk of health effects is increased for everyone.
+        {% elif category == "Hazardous" %}
+        Health warning of emergency conditions: everyone is more likely to be affected.
+        {% else %}
+        Members of sensitive groups may experience health effects. The general public is less likely to be affected.
+        {% endif %}
+        </p>
+    {% endwith %}
+      </div>
+</div>      
+
+{% endwith %}
+{% else %}
+Some Techinical Error. Check Back Later!
+{% endif %}
 {% endblock content %}
